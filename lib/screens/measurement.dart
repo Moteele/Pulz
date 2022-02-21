@@ -36,7 +36,7 @@ class _MeasurementPageState extends State<MeasurementPage>
   @override
   void initState() {
     super.initState();
-      Get.put(currentMeasurement);
+    Get.put(currentMeasurement);
     currentMeasurement.time = DateTime.now();
 
     _clearData();
@@ -182,7 +182,6 @@ class _MeasurementPageState extends State<MeasurementPage>
         setState(() {
           this._bpm = ((1 - _alpha) * this._bpm + _alpha * _bpm).toInt();
           currentMeasurement.bpm = this._bpm;
-
         });
       }
       await Future.delayed(Duration(
@@ -218,7 +217,7 @@ class Clock extends StatefulWidget {
 }
 
 class _ClockState extends State<Clock> {
-  static const _limit = Duration(seconds: 2);
+  static const _limit = Duration(seconds: 20);
   Duration seconds = Duration();
   Timer? timer;
   @override

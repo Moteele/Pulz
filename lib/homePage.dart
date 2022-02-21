@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pulz/app_export.dart';
 import 'package:wakelock/wakelock.dart';
 import 'chart.dart';
 

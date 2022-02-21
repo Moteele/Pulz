@@ -1,8 +1,8 @@
-import 'dart:ffi';
+import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
+import 'package:http/http.dart' as http;
 import 'app_export.dart';
 
 class CommonButton extends StatelessWidget {
@@ -47,6 +47,19 @@ class CommonActionButton extends StatelessWidget {
           Database database = Get.find();
           Measurement measurement = Get.find();
           await database.insert('measurements', measurement.toMap());
+/*
+          final directory = await getApplicationDocumentsDirectory();
+          final file = File('$directory/data.csv');
+          file.writeAsString(measurement.data.toString());
+
+          http.post(
+            Uri.parse('52773-1-5b2c2b30.labs.learning.intersystems.com/upload'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: json.encode(measurement.toMap()),
+          );
+*/
           Get.toNamed(page);
         },
         child: Text(name),

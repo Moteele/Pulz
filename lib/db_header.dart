@@ -31,7 +31,9 @@ class Measurement {
       return Measurement.args(
           id: maps[i]['id'],
           time: DateTime.parse(maps[i]['time']),
-          data: List<SensorValue>.from(json.decode(maps[i]['data'])),
+          data: (json.decode(maps[i]['data']) as List)
+              .map((i) => SensorValue.fromJson(i))
+              .toList(),
           bpm: maps[i]['bpm']);
     });
   }
