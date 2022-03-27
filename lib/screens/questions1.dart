@@ -1,8 +1,8 @@
 import '../app_export.dart';
 
-class Finished extends StatelessWidget {
+class Questions1 extends StatelessWidget {
   final Measurement measurement = Get.find();
-  Finished({Key? key}) : super(key: key);
+  Questions1({Key? key}) : super(key: key);
 
   initState() {
     Get.changeTheme(darkTheme);
@@ -23,7 +23,7 @@ class Finished extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyText2,
           ),
-          Symptoms(),
+          const Symptoms(),
           CommonActionButton(
             name: "Uložit",
             page: "/dashboard",
@@ -42,29 +42,19 @@ class Symptoms extends StatefulWidget {
 }
 
 class _SymptomsState extends State<Symptoms> {
-  List _selectedSymptoms = [];
-  final Map<String, dynamic> _symptoms = {
-    "responseCode": "1",
-    "responseText": "Příznaky",
-    "responseBody": [
-      {"category_id": "1", "category_name": "Žádné"},
-      {"category_id": "2", "category_name": "Rychlý srdeční tep"},
-      {"category_id": "3", "category_name": "Nepravidelný srdeční rytmus"},
-      {"category_id": "4", "category_name": "Únava"},
-      {"category_id": "5", "category_name": "Dušnost"},
-      {"category_id": "6", "category_name": "Tlak nebo bolest na hrudi"},
-      {"category_id": "ý", "category_name": "Studený pot"},
-    ],
-    "responseTotalResult": 6
-  };
-  void _onCategorySelected(bool? selected, category_id) {
+  final Set<int> _selectedSymptoms = {};
+
+  void _onCategorySelected(bool? selected, categoryId) {
     if (selected == true) {
       setState(() {
-        _selectedSymptoms.add(category_id);
+        categoryId == 1
+            ? _selectedSymptoms.clear()
+            : _selectedSymptoms.remove(1);
+        _selectedSymptoms.add(categoryId);
       });
     } else {
       setState(() {
-        _selectedSymptoms.remove(category_id);
+        _selectedSymptoms.remove(categoryId);
       });
     }
   }
@@ -83,18 +73,20 @@ class _SymptomsState extends State<Symptoms> {
         ),
         ListView.builder(
             shrinkWrap: true,
-            itemCount: _symptoms['responseTotalResult'],
+            itemCount: Measurement.symptoms['responseTotalResult'],
             itemBuilder: (BuildContext context, int index) {
               return CheckboxListTile(
                 controlAffinity: ListTileControlAffinity.leading,
-                value: _selectedSymptoms
-                    .contains(_symptoms['responseBody'][index]['category_id']),
+                value: _selectedSymptoms.contains(
+                    Measurement.symptoms['responseBody'][index]['category_id']),
                 onChanged: (bool? selected) {
-                  _onCategorySelected(selected,
-                      _symptoms['responseBody'][index]['category_id']);
+                  _onCategorySelected(
+                      selected,
+                      Measurement.symptoms['responseBody'][index]
+                          ['category_id']);
                 },
                 title: Text(
-                  _symptoms['responseBody'][index]['category_name'],
+                  Measurement.symptoms['responseBody'][index]['category_name'],
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
               );

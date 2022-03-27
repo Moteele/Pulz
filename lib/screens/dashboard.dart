@@ -16,36 +16,65 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     Future<List<Measurement>> _measures = Measurement.getMeasurements(db);
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text("Má měření", style: Theme.of(context).textTheme.headline1),
-          FutureBuilder<List<Measurement>>(
-              future: _measures,
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Measurement>> snapshot) {
-                if (snapshot.hasData) {
-                  int _count = (snapshot.data?.length ?? 0);
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _count,
-                      itemBuilder: (context, i) {
-                        return Row(
-                          children: [
-                            Text(DateFormat('dd. MM. yyyy').format(
-                                snapshot.data![i].time ?? DateTime.now())),
-                            SizedBox(
-                                width: 200,
-                                height: 120,
-                                child: Chart(snapshot.data![i].data)),
-                          ],
-                        );
-                      });
-                }
-                return Container();
-              }),
-          CommonButton(name: 'Nové měření', page: '/tutorial_1'),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Text(
+              "Historie měření",
+              style: Theme.of(context).textTheme.headline1,
+              textAlign: TextAlign.center,
+            ),
+            Flexible(
+              flex: 1,
+              child: FutureBuilder<List<Measurement>>(
+                  future: _measures,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Measurement>> snapshot) {
+                    if (snapshot.hasData) {
+                      int _count = (snapshot.data?.length ?? 0);
+                      return ListView.builder(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          shrinkWrap: true,
+                          itemCount: _count,
+                          itemBuilder: (context, i) {
+                            return GestureDetector(
+                                child: Container(
+                                  height: 120,
+                                  padding: const EdgeInsets.all(5),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        color: Theme.of(context).primaryColor),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(DateFormat('dd. MM. yyyy | hh:mm')
+                                          .format(snapshot.data![i].time ??
+                                              DateTime.now())),
+                                      SizedBox(
+                                          height: 110,
+                                          width: 180,
+                                          child: Chart(snapshot.data![i].data))
+                                    ],
+                                  ),
+                                ),
+                                onTap: () {});
+                          });
+                    }
+                    return Container();
+                  }),
+            ),
+            const Divider(
+              height: 5,
+            ),
+            CommonButton(name: 'Nové měření', page: '/tutorial_1')
+          ],
+        ),
       ),
     );
   }

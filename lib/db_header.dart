@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'app_export.dart';
 
 class Measurement {
@@ -7,6 +6,7 @@ class Measurement {
   DateTime? time;
   List<SensorValue> data = [];
   int? bpm;
+  //int? symptoms_id;
 
   Measurement();
   Measurement.args(
@@ -37,12 +37,27 @@ class Measurement {
           bpm: maps[i]['bpm']);
     });
   }
+
+  static final Map<String, dynamic> symptoms = {
+    "responseCode": "1",
+    "responseText": "Příznaky",
+    "responseBody": [
+      {"category_id": 1, "category_name": "Žádné"},
+      {"category_id": 2, "category_name": "Rychlý srdeční tep"},
+      {"category_id": 3, "category_name": "Nepravidelný srdeční rytmus"},
+      {"category_id": 4, "category_name": "Únava"},
+      {"category_id": 5, "category_name": "Dušnost"},
+      {"category_id": 6, "category_name": "Tlak nebo bolest na hrudi"},
+      {"category_id": 7, "category_name": "Studený pot"},
+    ],
+    "responseTotalResult": 7
+  };
 }
 
 void createDb(Database db, int version) async {
   Batch batch = db.batch();
-  //batch.execute("CREATE TABLE situations(id INTEGER PRIMARY KEY, name TEXT);");
   batch.execute(
       "CREATE TABLE measurements(id INTEGER PRIMARY KEY, time TEXT, data TEXT, bpm INT)");
+  //batch.execute("CREATE TABLE symptoms(id INTEGER PRIMARY KEY, measurement_id INTEGER, FOREIGN KEY(measurement_id) REFERENCES measurements(id))");
   await batch.commit(noResult: true);
 }

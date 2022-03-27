@@ -6,3 +6,4 @@ export 'package:camera/camera.dart';
 export 'package:wakelock/wakelock.dart';
 export 'package:sqflite/sqflite.dart';
 export 'package:pulz/db_header.dart';
+export 'package:pulz/db_header.dart';

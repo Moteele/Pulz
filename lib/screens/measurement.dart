@@ -50,7 +50,7 @@ class _MeasurementPageState extends State<MeasurementPage>
     });
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 20),
+      duration: const Duration(seconds: 2),
     )..addListener(() {
         setState(() {
           _completedness = _animationController.value;
@@ -217,7 +217,7 @@ class Clock extends StatefulWidget {
 }
 
 class _ClockState extends State<Clock> {
-  static const _limit = Duration(seconds: 20);
+  static const _limit = Duration(seconds: 2);
   Duration seconds = Duration();
   Timer? timer;
   @override
@@ -230,7 +230,7 @@ class _ClockState extends State<Clock> {
                 if (seconds == _limit) {
                   timer?.cancel();
                   Get.changeTheme(seedTheme);
-                  Get.toNamed("/finished");
+                  Get.toNamed("/questions1");
                 } else {
                   seconds += const Duration(seconds: 1);
                 }
@@ -251,7 +251,7 @@ class _ClockState extends State<Clock> {
       if (seconds == _limit) {
         Get.changeTheme(darkTheme);
 
-        Get.toNamed("/finished");
+        Get.toNamed("/questions1");
       } else {
         seconds += const Duration(seconds: 1);
       }
