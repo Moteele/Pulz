@@ -50,7 +50,7 @@ class _MeasurementPageState extends State<MeasurementPage>
     });
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: timerLength),
     )..addListener(() {
         setState(() {
           _completedness = _animationController.value;
@@ -217,7 +217,7 @@ class Clock extends StatefulWidget {
 }
 
 class _ClockState extends State<Clock> {
-  static const _limit = Duration(seconds: 2);
+  static const _limit = Duration(seconds: timerLength);
   Duration seconds = Duration();
   Timer? timer;
   @override
